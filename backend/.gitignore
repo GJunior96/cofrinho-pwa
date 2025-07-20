@@ -1,0 +1,23 @@
+# dependências
+node_modules/
+
+# variáveis de ambiente
+.env
+.env.local
+.env.test
+
+# logs e temporários
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# arquivos de build
+dist/
+build/
+coverage/
+
+# editor/configs
+.vscode/
+.DS_Store
+*.swp
