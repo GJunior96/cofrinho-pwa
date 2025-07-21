@@ -54,3 +54,30 @@ export function gastarConjunto({ valor, descricao = 'Sem descrição', usuario }
     saldoConjunto -= valor
     registrarTransacaoConjunto({ tipo: 'saida', valor, descricao, usuario })
 }
+
+export function criarCofrinhoConjunto({ usuarios }) {
+    if (!Array.isArray(usuarios) || usuarios.length < 2) {
+        throw criarErro(mensagens.erro.usuariosConjuntoInvalidos)
+    }
+
+    const usuariosInvalidos = usuarios.some(
+        u => typeof u !== 'string' || u.trim() === ''
+    )
+
+    if (usuariosInvalidos) {
+    throw criarErro(mensagens.erro.usuarioInvalido)
+    }
+
+    const cofrinho = {
+        id: gerarId(),
+        tipo: 'conjunto',
+        usuarios,
+        saldo: 0,
+        historico: [],
+        metas: [],
+        criadoEm: new Date().toISOString()
+    }
+
+    cofrinhoConjuntos.push(cofrinho)
+    return cofrinho
+}

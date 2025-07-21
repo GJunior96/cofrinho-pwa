@@ -16,6 +16,11 @@ export const mensagens = {
             codigo: 404,
             tipo: 'ROTA_NAO_ENCONTRADA'
         },
+        usuarioInvalida: {
+            mensagem: 'Usuario inválido.',
+            codigo: 404,
+            tipo: 'USUARIO_INVALIDO'
+        },
         metaNaoEncontrada: {
             mensagem: 'Meta não encontrada.',
             codigo: 404,
@@ -45,6 +50,16 @@ export const mensagens = {
             mensagem: 'Cofrinho conjunto não encontrad.',
             codigo: 404,
             tipo: 'COFRINHO_CONJUNTO_NAO_ENCONTRADO'
+        },
+        usuariosConjuntoInvalidos: {
+            mensagem: 'O número mínimo de usuários para criação de um cofrinho conjunto é 2.',
+            codigo: 400,
+            tipo: 'USUARIOS_CONJUNTO_INVALIDO'
+        },
+        usuarioJaPossuiCofrinho: {
+            mensagem: 'O usuário informado já possui um cofrinho',
+            codigo: 400,
+            tipo: 'USUARIO_JA_POSSUI_COFRINHO'
         }
     }
 }
