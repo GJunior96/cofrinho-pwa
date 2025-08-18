@@ -19,7 +19,7 @@ const TransactionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  account: { // A qual conta esta transação pertence
+  accountId: { // A qual conta esta transação pertence
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Account',
     required: true,

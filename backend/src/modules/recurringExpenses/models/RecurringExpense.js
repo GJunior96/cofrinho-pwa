@@ -19,12 +19,7 @@ const RecurringExpenseSchema = new mongoose.Schema({
     enum: ['daily', 'weekly', 'monthly', 'quarterly', 'yearly'],
     default: 'monthly',
   },
-  dueDate: { // Dia do mês em que a despesa geralmente vence (para 'monthly')
-    type: Number,
-    min: 1,
-    max: 31,
-    required: function() { return this.frequency === 'monthly'; }
-  },
+  dueDate: { type: mongoose.Schema.Types.Mixed },
   startDate: { // Data de início da recorrência
     type: Date,
     default: Date.now,

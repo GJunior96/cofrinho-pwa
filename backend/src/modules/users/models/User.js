@@ -17,6 +17,8 @@ const UserSchema = new mongoose.Schema({
     required: true,
     select: false, // Não retorna a senha por padrão nas buscas
   },
+  passwordResetToken: String,
+  passwordResetExpires: Date,
   createdAt: {
     type: Date,
     default: Date.now,
@@ -40,4 +42,3 @@ UserSchema.methods.comparePassword = async function (candidatePassword) {
 const User = mongoose.model('User', UserSchema);
 
 export default User;
-

@@ -7,7 +7,7 @@ class TransactionController {
     try {
       const { description, amount, type, date, accountId, category } = req.body;
       const userId = req.user.id; // ID do usuário logado
-
+/*
       const newTransaction = await TransactionService.createTransaction({
         description,
         amount,
@@ -17,7 +17,19 @@ class TransactionController {
         userId,
         category,
       });
+*/
+      const transactionData = {
+        description,
+        amount,
+        type,
+        date,
+        accountId,
+       // userId,
+        category
+      };
 
+      const newTransaction = await TransactionService.createTransaction(userId, transactionData)
+  
       return res.status(201).json(newTransaction);
     } catch (error) {
       console.error(error);
@@ -27,13 +39,31 @@ class TransactionController {
       return res.status(500).json({ message: 'Error creating transaction.' });
     }
   }
+  
+  async update(req, res) {
+  try {
+    const { accountId, transactionId } = req.params;
+    const userId = req.user.id;
+    const updateData = req.body;
+
+    const updatedTransaction = await TransactionService.updateTransaction(transactionId, accountId, userId, updateData);
+    return res.status(200).json(updatedTransaction);
+  } catch (error) {
+    console.error(error);
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json({ message: error.message });
+    }
+    return res.status(500).json({ message: 'Error updating transaction.' });
+  }
+}
 
   async indexByAccount(req, res) {
     try {
-      const { accountId } = req.params; // ID da conta vindo da URL
-      const userId = req.user.id; // ID do usuário logado
+      const { accountId } = req.params;
+      const userId = req.user.id;
+      const filters = req.query; // Pega todos os parâmetros da query string (startDate, endDate, etc.)
 
-      const transactions = await TransactionService.getTransactionsByAccount(accountId, userId);
+      const transactions = await TransactionService.getTransactionsByAccount(accountId, userId, filters);
       return res.status(200).json(transactions);
     } catch (error) {
       console.error(error);

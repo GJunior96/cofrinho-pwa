@@ -5,9 +5,17 @@ class UserRepository {
   async findAll() {
     return await User.find().select('-password'); // Exclui a senha ao buscar
   }
+  
+  async findOne(query) {
+    return await User.findOne(query);
+  }
 
   async findById(id) {
     return await User.findById(id).select('-password');
+  }
+  
+  async findByEmail(email) {
+    return await User.findOne({ email });
   }
 
   // Novo método para buscar por email, **incluindo a senha**

@@ -4,8 +4,8 @@ import AccountRepository from '../../accounts/repositories/AccountRepository.js'
 import AppError from '../../../shared/errors/AppError.js';
 
 class GoalService {
-  async getAllGoals(userId) {
-    return await GoalRepository.findAllByUserId(userId);
+  async getAllGoals(userId, filters = {}) {
+    return await GoalRepository.findAllByUserId(userId, filters);
   }
 
   async getGoalById(goalId, userId) {

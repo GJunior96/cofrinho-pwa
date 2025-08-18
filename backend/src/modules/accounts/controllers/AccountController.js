@@ -46,6 +46,23 @@ class AccountController {
       return res.status(500).json({ message: 'Error creating account.' });
     }
   }
+  
+  async update(req, res) {
+  try {
+    const { id } = req.params; // ID da conta
+    const userId = req.user.id; // Usuário logado
+    const updateData = req.body;
+
+    const updatedAccount = await AccountService.updateAccount(id, userId, updateData);
+    return res.status(200).json(updatedAccount);
+  } catch (error) {
+    console.error(error);
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json({ message: error.message });
+    }
+    return res.status(500).json({ message: 'Error updating account.' });
+  }
+}
 }
 
 export default new AccountController();

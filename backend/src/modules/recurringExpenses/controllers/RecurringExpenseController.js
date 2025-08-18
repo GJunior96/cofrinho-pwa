@@ -6,8 +6,11 @@ class RecurringExpenseController {
   async index(req, res) {
     try {
       const userId = req.user.id;
-      const expenses = await RecurringExpenseService.getAllRecurringExpenses(userId);
-      return res.status(200).json(expenses);
+      const filters = req.query;
+      
+      const paginationResult = await RecurringExpenseService.getAllRecurringExpenses(userId, filters);
+
+      return res.status(200).json(paginationResult);
     } catch (error) {
       console.error(error);
       if (error instanceof AppError) {

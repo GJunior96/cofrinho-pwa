@@ -4,8 +4,9 @@ import AccountRepository from '../../accounts/repositories/AccountRepository.js'
 import AppError from '../../../shared/errors/AppError.js';
 
 class RecurringExpenseService {
-  async getAllRecurringExpenses(userId) {
-    return await RecurringExpenseRepository.findAllByUserId(userId);
+  async getAllRecurringExpenses(userId, filters = {}) {
+    const paginationResult = await RecurringExpenseRepository.findAllByUserId(userId, filters);
+    return paginationResult;
   }
 
   async getRecurringExpenseById(expenseId, userId) {

@@ -1,16 +1,27 @@
 // src/modules/goals/repositories/GoalRepository.js
 import Goal from '../models/Goal.js';
+import paginate from '../../../shared/utils/paginate.js'
 
 class GoalRepository {
-  async findAllByUserId(userId) {
+  /*async findAllByUserId(userId) {
     // Busca todas as metas do usuário
     return await Goal.find({ user: userId }).sort({ createdAt: -1 });
-  }
+  }*/
 
   async findByIdAndUserId(goalId, userId) {
     // Busca uma meta específica do usuário
     return await Goal.findOne({ _id: goalId, user: userId });
   }
+  
+  async findAllByUserId(userId, filters = {}) {
+	  const baseQuery = { user: userId };
+	  const options = {
+		sort: { deadline: 1, createdAt: -1 },
+	};
+	const paginationResult = paginate(Goal, baseQuery, filters, options);
+
+	return (paginationResult)
+}
 
   async create(goalData) {
     const newGoal = new Goal(goalData);

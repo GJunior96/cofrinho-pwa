@@ -16,18 +16,30 @@ class UserService {
     }
     return user;
   }
-
-  async createUser({ name, email, password }) {
-    const userExists = await UserRepository.findByEmailWithPassword(email);
-
-    if (userExists) {
-      throw new AppError('Email address already used.', 409); // 409 Conflict
+  
+  async updateUser(id, updateData) {
+    const user = await UserRepository.findById(id);
+    if (!user) {
+      return null; // ou throw new AppError('User not found.', 404);
     }
 
-    const newUser = await UserRepository.create({ name, email, password });
-    return newUser;
-  }
+    // Se a senha estiver sendo atualizada, faça o hash
+    if (updateData.password) {
+      updateData.password = await bcrypt.hash(updateData.password, 8);
+    }
 
+    // Garante que o email, se atualizado, não conflite com um existente
+    if (updateData.email && updateData.email !== user.email) {
+        const emailExists = await UserRepository.findByEmail(updateData.email);
+        if (emailExists && String(emailExists._id) !== id) {
+            throw new AppError('Email address already in use.', 409); // Conflict
+        }
+    }
+
+    const updatedUser = await UserRepository.update(id, updateData);
+    return updatedUser;
+  }
+/*
   async authenticateUser({ email, password }) {
     const user = await UserRepository.findByEmailWithPassword(email);
 
@@ -49,7 +61,7 @@ class UserService {
     delete userObject.password; // Remove a senha antes de retornar
 
     return { user: userObject, token };
-  }
+  }*/
 }
 
 export default new UserService();

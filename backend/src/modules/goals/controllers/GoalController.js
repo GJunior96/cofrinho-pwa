@@ -6,8 +6,10 @@ class GoalController {
   async index(req, res) {
     try {
       const userId = req.user.id;
-      const goals = await GoalService.getAllGoals(userId);
-      return res.status(200).json(goals);
+      const filters = req.query;
+      
+      const paginationResult = await GoalService.getAllGoals(userId, filters);
+      return res.status(200).json(paginationResult);
     } catch (error) {
       console.error(error);
       if (error instanceof AppError) {
